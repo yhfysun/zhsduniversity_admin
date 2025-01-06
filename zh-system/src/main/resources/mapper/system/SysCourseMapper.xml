@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhfysun.zhuniversity.system.mapper.SysCourseMapper">
+    
+    <resultMap type="SysCourse" id="SysCourseResult">
+        <result property="couId"    column="cou_id"    />
+        <result property="couName"    column="cou_name"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="couType"    column="cou_type"    />
+        <result property="visible"    column="visible"    />
+        <result property="status"    column="status"    />
+        <result property="isTop"    column="is_top"    />
+        <result property="icon"    column="icon"    />
+        <result property="detail"    column="detail"    />
+        <result property="sourceUrl"    column="source_url"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysCourseVo">
+        select cou_id, cou_name, parent_id, order_num, cou_type, visible, status, is_top, icon, detail, source_url, create_by, create_time, update_by, update_time, remark from sys_course
+    </sql>
+
+    <select id="selectSysCourseList" parameterType="SysCourse" resultMap="SysCourseResult">
+        <include refid="selectSysCourseVo"/>
+        <where>  
+            <if test="couName != null  and couName != ''"> and cou_name like concat('%', #{couName}, '%')</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="couType != null  and couType != ''"> and cou_type = #{couType}</if>
+            <if test="visible != null  and visible != ''"> and visible = #{visible}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="isTop != null  and isTop != ''"> and is_top = #{isTop}</if>
+            <if test="icon != null  and icon != ''"> and icon = #{icon}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="sourceUrl != null  and sourceUrl != ''"> and source_url = #{sourceUrl}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCourseByCouId" parameterType="Long" resultMap="SysCourseResult">
+        <include refid="selectSysCourseVo"/>
+        where cou_id = #{couId}
+    </select>
+
+    <insert id="insertSysCourse" parameterType="SysCourse" useGeneratedKeys="true" keyProperty="couId">
+        insert into sys_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="couName != null and couName != ''">cou_name,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="couType != null">cou_type,</if>
+            <if test="visible != null">visible,</if>
+            <if test="status != null">status,</if>
+            <if test="isTop != null">is_top,</if>
+            <if test="icon != null">icon,</if>
+            <if test="detail != null">detail,</if>
+            <if test="sourceUrl != null">source_url,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="couName != null and couName != ''">#{couName},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="couType != null">#{couType},</if>
+            <if test="visible != null">#{visible},</if>
+            <if test="status != null">#{status},</if>
+            <if test="isTop != null">#{isTop},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="sourceUrl != null">#{sourceUrl},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysCourse" parameterType="SysCourse">
+        update sys_course
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="couName != null and couName != ''">cou_name = #{couName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="couType != null">cou_type = #{couType},</if>
+            <if test="visible != null">visible = #{visible},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="isTop != null">is_top = #{isTop},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="sourceUrl != null">source_url = #{sourceUrl},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where cou_id = #{couId}
+    </update>
+
+    <delete id="deleteSysCourseByCouId" parameterType="Long">
+        delete from sys_course where cou_id = #{couId}
+    </delete>
+
+    <delete id="deleteSysCourseByCouIds" parameterType="String">
+        delete from sys_course where cou_id in 
+        <foreach item="couId" collection="array" open="(" separator="," close=")">
+            #{couId}
+        </foreach>
+    </delete>
+</mapper>

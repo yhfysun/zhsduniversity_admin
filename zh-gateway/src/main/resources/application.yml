@@ -1,0 +1,21 @@
+spring:
+  cloud:
+#    nacos:
+#      server-addr: 127.0.0.1:8848
+#      config:
+#        namespace: a9ca0046-a296-4c09-8630-f44d441533c4
+    gateway:
+      routes: 
+        - id: api_route # 小程序后台api
+          uri: http://127.0.0.1:8000
+          predicates:
+#            - After=2024-06-19T10:36:47.789-07:00[Asia/Shanghai]
+#            - Query=uri,api # 参数匹配 ?uri=api
+            - Path=/api/app/**
+          filters:
+              - RewritePath=/api/app/(?<segment>/?.*),/app/$\{segment}
+#  config:
+#    import: 
+#      - nacos:gateway.yml?refresh=true&group=dev
+server:
+  port: 88
